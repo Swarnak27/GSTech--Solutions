@@ -37,19 +37,23 @@ function App() {
       <section ref={aboutRef} id="about">
         <Aboutus />
       </section>
-
       <section ref={servicesRef} id="services">
         <Services />
       </section>
-
       <section ref={whyusRef} id="whyus">
         <Whyus />
       </section>
-
       <section ref={pastExpRef} id="pastExp">
         <PastExp />
       </section>
-
+      
+      {/* Naics section (Not in Navbar) */}
+      <section id="naics">
+        <Naics />
+      </section>
+      <section id="certificate">
+        <Certificate />
+      </section>
       <section ref={contactRef} id="contact">
         <Footer />
       </section>
