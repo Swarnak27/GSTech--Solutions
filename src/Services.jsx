@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Lottie from "lottie-react";
 import { motion } from "framer-motion";
 
@@ -21,84 +21,70 @@ const serviceData = [
 ];
 
 // Service Card Component
-const ServiceCard = ({ animation, title }) => {
+const ServiceCard = ({ animation, title, index, activeIndex }) => {
+  let transformStyle = "scale(0.8) rotateY(-30deg)";
+  let zIndex = 1;
+
+  if (index === activeIndex) {
+    transformStyle = "scale(1) rotateY(0deg)";
+    zIndex = 3;
+  } else if (index === (activeIndex + 1) % serviceData.length) {
+    transformStyle = "scale(0.8) rotateY(30deg) translateX(50px)";
+    zIndex = 2;
+  } else if (index === (activeIndex - 1 + serviceData.length) % serviceData.length) {
+    transformStyle = "scale(0.8) rotateY(-30deg) translateX(-50px)";
+    zIndex = 2;
+  }
+
   return (
     <motion.div
-      className="relative bg-gray-900 rounded-lg shadow-lg p-6 border border-green-400 transition-all duration-500 hover:scale-105 hover:shadow-green-400"
-      whileHover={{ scale: 1.08 }}
+      className="absolute bg-gray-900 rounded-lg shadow-lg p-6 border border-green-400 transition-all duration-500"
+      style={{ transform: transformStyle, zIndex }}
     >
-      {/* Glowing Border Effect */}
-      <div className="absolute inset-0 border-2 border-green-400 rounded-lg animate-pulse"></div>
-
-      {/* Lottie Animation with Glowing Effect */}
-      <div className="flex justify-center mb-4 relative z-10">
-        <div className="p-4 rounded-full bg-green-400 bg-opacity-20 shadow-lg shadow-green-400">
-          <Lottie animationData={animation} loop autoplay className="h-24 w-24 filter drop-shadow-glow" />
+      <div className="flex justify-center mb-4">
+        <div className="p-4 rounded-full bg-green-400 bg-opacity-20 shadow-lg">
+          <Lottie animationData={animation} loop autoplay className="h-24 w-24" />
         </div>
       </div>
-
-      {/* Title with Hover Glow */}
-      <h3 className="text-lg font-bold text-center text-green-300 relative z-10 transition-all duration-300 hover:text-green-500">
-        {title}
-      </h3>
-
-      {/* Background Glow Effect on Hover */}
-      <div className="absolute inset-0 bg-green-400 opacity-10 hover:opacity-20 transition-all duration-300"></div>
+      <h3 className="text-lg font-bold text-center text-white">{title}</h3>
     </motion.div>
   );
 };
 
-// Services Component
+// Services Component with 3D Carousel
 const Services = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prevIndex) => (prevIndex + 1) % serviceData.length);
+    }, 3000); // Auto-scroll every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-    <section className="py-20 bg-black">
-      <div className="container mx-auto text-center space-y-10">
-        
-        {/* Title Section with Glowing Effect */}
-        <motion.h4
-          className="text-6xl font-bold uppercase tracking-wide text-green-400 relative"
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1 }}
-          style={{
-            textShadow: "0 0 25px rgba(150, 246, 85, 1), 0 0 50px rgba(150, 246, 85, 0.9)",
-          }}
-        >
-          Services
-        </motion.h4>
-
-        {/* Highlighted Subtitle Animation */}
-        <motion.h2
-          className="text-4xl font-bold text-white relative inline-block"
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.3 }}
-        >
-          Our <span className="text-green-400 neon-text">Service Offerings</span>
-        </motion.h2>
-
-        {/* Grid Layout with Staggered Animation */}
-        <motion.div 
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: { opacity: 0 },
-            visible: { opacity: 1, transition: { staggerChildren: 0.2 } },
-          }}
-        >
-          {serviceData.map((service, index) => (
-            <motion.div 
-              key={index} 
-              variants={{
-                hidden: { opacity: 0, y: 20 },
-                visible: { opacity: 1, y: 0 },
-              }}
-            >
-              <ServiceCard animation={service.animation} title={service.title} />
-            </motion.div>
-          ))}
-        </motion.div>
+    <section className="py-20 bg-black flex flex-col items-center relative">
+      <motion.h4
+        className="text-6xl font-bold uppercase tracking-wide text-white"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1 }}
+      >
+        Services
+      </motion.h4>
+      <motion.h2
+        className="text-4xl font-bold text-white mt-4"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, delay: 0.3 }}
+      >
+        Our <span className="text-green-400">Service Offerings</span>
+      </motion.h2>
+      <div className="relative w-full flex justify-center items-center h-96 overflow-hidden mt-12">
+        {serviceData.map((service, index) => (
+          <ServiceCard key={index} animation={service.animation} title={service.title} index={index} activeIndex={activeIndex} />
+        ))}
       </div>
     </section>
   );

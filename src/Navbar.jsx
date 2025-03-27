@@ -24,17 +24,15 @@ const Navbar = ({
   const scrollToSection = (ref) => {
     if (ref && ref.current) {
       ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
-      setMenuOpen(false); // Close mobile menu
+      setMenuOpen(false);
     }
   };
 
   return (
     <header
-      className={`fixed top-0 z-50 w-full py-4 px-6 transition-all duration-300 text-white`}
-      style={{
-        backgroundColor: isScrolled ? "rgba(34, 34, 34, 0.95)" : "transparent",
-        boxShadow: isScrolled ? "0px 4px 8px rgba(0, 255, 128, 0.3)" : "none",
-      }}
+      className={`fixed top-0 z-50 w-full py-4 px-6 transition-all duration-300 text-white ${
+        isScrolled ? "bg-black shadow-lg" : "bg-transparent"
+      }`}
     >
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo with Glow Effect */}
@@ -43,37 +41,32 @@ const Navbar = ({
             src={logo}
             alt="Company Logo"
             className="h-16 w-40 object-contain rounded-lg"
-            whileHover={{ scale: 1.1, filter: "drop-shadow(0px 0px 10px rgba(0, 255, 128, 0.7))" }}
+            whileHover={{
+              scale: 1.1,
+              filter: "drop-shadow(0px 0px 10px rgba(0, 255, 128, 0.7))",
+            }}
           />
         </a>
 
-        {/* Compatibility Statement */}
-        <div className="hidden md:block text-green-300 text-sm font-semibold tracking-wider">
-          <span className="glow-text">Certified & Compliant | Trusted Business Partner</span>
-        </div>
-
         {/* Desktop Navigation */}
-        <ul className="hidden md:flex space-x-8">
+        <ul className="hidden md:flex space-x-8 text-lg font-semibold">
           {[
             { name: "Home", ref: homeRef },
             { name: "About Us", ref: aboutRef },
             { name: "Services", ref: servicesRef },
             { name: "Why Us", ref: whyusRef },
             { name: "Past Performance", ref: pastExpRef },
-            { name: "Contact Us", ref: contactRef },
+            { name: "Contact", ref: contactRef },
           ].map((item, index) => (
-            <motion.li
+            <li
               key={index}
-              whileHover={{
-                scale: 1.1,
-                textShadow: "0px 0px 8px rgba(0, 255, 128, 0.9)",
-                color: "rgba(0, 255, 128, 1)",
-              }}
-              className="cursor-pointer transition-all duration-300"
+              className="relative group cursor-pointer pb-2 text-gray-300 transition-all duration-200 hover:text-white"
               onClick={() => scrollToSection(item.ref)}
             >
               {item.name}
-            </motion.li>
+              {/* Thicker Underline Effect (2px) */}
+              <span className="absolute left-0 bottom-0 h-[2px] w-full bg-green-400 scale-x-0 transition-transform duration-150 ease-linear group-hover:scale-x-100"></span>
+            </li>
           ))}
         </ul>
 
@@ -95,29 +88,26 @@ const Navbar = ({
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "-100%" }}
             transition={{ duration: 0.4 }}
-            className="md:hidden bg-gray-900 text-white py-4 px-5 absolute w-full left-0 top-16 shadow-lg border-2 border-green-400 rounded-lg"
+            className="md:hidden bg-black text-white py-4 px-5 absolute w-full left-0 top-16 shadow-lg border-2 border-green-400 rounded-lg"
           >
-            <ul className="space-y-4 text-center">
+            <ul className="space-y-4 text-center text-lg font-semibold">
               {[
                 { name: "Home", ref: homeRef },
                 { name: "About Us", ref: aboutRef },
                 { name: "Services", ref: servicesRef },
                 { name: "Why Us", ref: whyusRef },
                 { name: "Past Performance", ref: pastExpRef },
-                { name: "Contact Us", ref: contactRef },
+                { name: "Contact", ref: contactRef },
               ].map((item, index) => (
-                <motion.li
+                <li
                   key={index}
-                  whileHover={{
-                    scale: 1.1,
-                    textShadow: "0px 0px 8px rgba(0, 255, 128, 0.9)",
-                    color: "rgba(0, 255, 128, 1)",
-                  }}
-                  className="cursor-pointer transition-all duration-300"
+                  className="relative group cursor-pointer pb-2 text-gray-300 transition-all duration-200 hover:text-white"
                   onClick={() => scrollToSection(item.ref)}
                 >
                   {item.name}
-                </motion.li>
+                  {/* Thicker Underline Effect for Mobile (2px) */}
+                  <span className="absolute left-1/2 bottom-0 h-[2px] w-full bg-green-400 scale-x-0 transition-transform duration-150 ease-linear group-hover:scale-x-100 transform -translate-x-1/2"></span>
+                </li>
               ))}
             </ul>
           </motion.div>

@@ -68,9 +68,9 @@ const AboutUs = () => {
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 to-black opacity-80 backdrop-blur-lg"></div>
       </div>
 
-      {/* Glowing About Us Title */}
+      {/* About Us Title (Without Glowing Effect) */}
       <motion.h1
-        className="text-white text-6xl font-bold glowing-text text-center relative z-10"
+        className="text-white text-6xl font-bold text-center relative z-10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -78,7 +78,7 @@ const AboutUs = () => {
         About Us
       </motion.h1>
 
-      {/* Main Content Box with Glow Effect */}
+      {/* Main Content Box */}
       <motion.div
         className="description-box text-white text-center max-w-3xl relative z-10 p-6 mt-6"
         initial={{ y: 50, opacity: 0 }}
@@ -94,24 +94,10 @@ const AboutUs = () => {
         </p>
       </motion.div>
 
-      {/* CSS for Glowing Effect */}
+      {/* CSS for Typing Animation */}
       <style jsx>{`
-        .glowing-text {
-          text-shadow: 0 0 15px rgba(0, 255, 128, 1), 0 0 30px rgba(0, 255, 128, 0.8), 0 0 45px rgba(0, 255, 128, 0.6);
-          animation: glow 1.5s infinite alternate;
-        }
-
         .typing-text {
           text-shadow: 0 0 12px rgba(0, 255, 128, 0.9), 0 0 25px rgba(0, 255, 128, 0.7);
-        }
-
-        @keyframes glow {
-          from {
-            text-shadow: 0 0 15px rgba(0, 255, 128, 0.8), 0 0 30px rgba(0, 255, 128, 0.6);
-          }
-          to {
-            text-shadow: 0 0 20px rgba(0, 255, 128, 1), 0 0 35px rgba(0, 255, 128, 0.9);
-          }
         }
       `}</style>
     </section>
